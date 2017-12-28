@@ -1,0 +1,1138 @@
+
+
+----------------------------------------
+checking for C compiler
+
+
+----------------------------------------
+checking for -Wl,-E switch
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+
+
+
+int main(void) {
+    ;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -o objs/autotest objs/autotest.c -Wl,-E
+----------
+
+----------------------------------------
+checking for gcc builtin atomic operations
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+
+
+
+int main(void) {
+    long  n = 0;
+                          if (!__sync_bool_compare_and_swap(&n, 0, 1))
+                              return 1;
+                          if (__sync_fetch_and_add(&n, 1) != 1)
+                              return 1;
+                          if (n != 2)
+                              return 1;
+                          __sync_synchronize();;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for C99 variadic macros
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+
+#include <stdio.h>
+#define var(dummy, ...)  sprintf(__VA_ARGS__)
+
+int main(void) {
+    char  buf[30]; buf[0] = '0';
+                          var(0, buf, "%d", 1);
+                          if (buf[0] != '1') return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for gcc variadic macros
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+
+#include <stdio.h>
+#define var(dummy, args...)  sprintf(args)
+
+int main(void) {
+    char  buf[30]; buf[0] = '0';
+                      var(0, buf, "%d", 1);
+                      if (buf[0] != '1') return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for gcc builtin 64 bit byteswap
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+
+
+
+int main(void) {
+    if (__builtin_bswap64(0)) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for unistd.h
+
+
+----------------------------------------
+checking for inttypes.h
+
+
+----------------------------------------
+checking for limits.h
+
+
+----------------------------------------
+checking for sys/filio.h
+
+objs/autotest.c:3:23: fatal error: sys/filio.h: No such file or directory
+compilation terminated.
+----------
+
+
+#include <sys/filio.h>
+
+int main(void) {
+    return 0;
+}
+
+----------
+cc -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for sys/param.h
+
+
+----------------------------------------
+checking for sys/mount.h
+
+
+----------------------------------------
+checking for sys/statvfs.h
+
+
+----------------------------------------
+checking for crypt.h
+
+
+----------------------------------------
+checking for epoll
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/epoll.h>
+
+int main(void) {
+    int efd = 0;
+                  struct epoll_event ee;
+                  ee.events = EPOLLIN|EPOLLOUT|EPOLLET;
+                  ee.data.ptr = NULL;
+                  (void) ee;
+                  efd = epoll_create(100);
+                  if (efd == -1) return 1;;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for O_PATH
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/types.h>
+                  #include <sys/stat.h>
+                  #include <fcntl.h>
+
+int main(void) {
+    int fd; struct stat sb;
+                  fd = openat(AT_FDCWD, ".", O_PATH|O_DIRECTORY|O_NOFOLLOW);
+                  if (fstatat(fd, "", &sb, AT_EMPTY_PATH) != 0) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for sendfile()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/sendfile.h>
+                  #include <errno.h>
+
+int main(void) {
+    int s = 0, fd = 1;
+                  ssize_t n; off_t off = 0;
+                  n = sendfile(s, fd, &off, 1);
+                  if (n == -1 && errno == ENOSYS) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for sendfile64()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/sendfile.h>
+                  #include <errno.h>
+
+int main(void) {
+    int s = 0, fd = 1;
+                  ssize_t n; off_t off = 0;
+                  n = sendfile(s, fd, &off, 1);
+                  if (n == -1 && errno == ENOSYS) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for sys/prctl.h
+
+
+----------------------------------------
+checking for prctl(PR_SET_DUMPABLE)
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/prctl.h>
+
+int main(void) {
+    if (prctl(PR_SET_DUMPABLE, 1, 0, 0, 0) == -1) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for prctl(PR_SET_KEEPCAPS)
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/prctl.h>
+
+int main(void) {
+    if (prctl(PR_SET_KEEPCAPS, 1, 0, 0, 0) == -1) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for capabilities
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <linux/capability.h>
+                  #include <sys/syscall.h>
+
+int main(void) {
+    struct __user_cap_data_struct    data;
+                  struct __user_cap_header_struct  header;
+
+                  header.version = _LINUX_CAPABILITY_VERSION_1;
+                  data.effective = CAP_TO_MASK(CAP_NET_RAW);
+                  data.permitted = 0;
+
+                  (void) SYS_capset;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for crypt_r()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <crypt.h>
+
+int main(void) {
+    struct crypt_data  cd;
+                  crypt_r("key", "salt", &cd);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c -lcrypt
+----------
+
+----------------------------------------
+checking for sys/vfs.h
+
+
+----------------------------------------
+checking for poll()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <poll.h>
+
+int main(void) {
+    int  n; struct pollfd  pl;
+                  pl.fd = 0;
+                  pl.events = 0;
+                  pl.revents = 0;
+                  n = poll(&pl, 1, 0);
+                  if (n == -1) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for /dev/poll
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/devpoll.h>
+
+int main(void) {
+    int  n, dp; struct dvpoll  dvp;
+                  dp = 0;
+                  dvp.dp_fds = NULL;
+                  dvp.dp_nfds = 0;
+                  dvp.dp_timeout = 0;
+                  n = ioctl(dp, DP_POLL, &dvp);
+                  if (n == -1) return 1;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for kqueue
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/event.h>
+
+int main(void) {
+    (void) kqueue();
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for crypt()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+
+
+int main(void) {
+    crypt("test", "salt");;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for crypt() in libcrypt
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+
+
+int main(void) {
+    crypt("test", "salt");;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c -lcrypt
+----------
+
+----------------------------------------
+checking for F_READAHEAD
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main(void) {
+    fcntl(0, F_READAHEAD, 1);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for posix_fadvise()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main(void) {
+    posix_fadvise(0, 0, 0, POSIX_FADV_SEQUENTIAL);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for O_DIRECT
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main(void) {
+    fcntl(0, F_SETFL, O_DIRECT);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for F_NOCACHE
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main(void) {
+    fcntl(0, F_NOCACHE, 1);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for directio()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/types.h>
+                  #include <sys/fcntl.h>
+
+int main(void) {
+    directio(0, DIRECTIO_ON);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for statfs()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/param.h>
+                  #include <sys/mount.h>
+                  #include <sys/vfs.h>
+
+int main(void) {
+    struct statfs  fs;
+                  statfs(".", &fs);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for statvfs()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/types.h>
+                  #include <sys/statvfs.h>
+
+int main(void) {
+    struct statvfs  fs;
+                  statvfs(".", &fs);;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for dlopen()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <dlfcn.h>
+
+int main(void) {
+    dlopen(NULL, RTLD_NOW | RTLD_GLOBAL); dlsym(NULL, "");
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for dlopen() in libdl
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <dlfcn.h>
+
+int main(void) {
+    dlopen(NULL, RTLD_NOW | RTLD_GLOBAL); dlsym(NULL, "");
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c -ldl
+----------
+
+----------------------------------------
+checking for sched_yield()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sched.h>
+
+int main(void) {
+    sched_yield();
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for sched_yield() in librt
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sched.h>
+
+int main(void) {
+    sched_yield();
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c -lrt
+----------
+
+----------------------------------------
+checking for sched_setaffinity()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sched.h>
+
+int main(void) {
+    cpu_set_t mask;
+                  CPU_ZERO(&mask);
+                  sched_setaffinity(0, sizeof(cpu_set_t), &mask);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for SO_SETFIB
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+
+int main(void) {
+    setsockopt(0, SOL_SOCKET, SO_SETFIB, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for SO_REUSEPORT
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+
+int main(void) {
+    setsockopt(0, SOL_SOCKET, SO_REUSEPORT, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for SO_ACCEPTFILTER
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+
+int main(void) {
+    setsockopt(0, SOL_SOCKET, SO_ACCEPTFILTER, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for SO_BINDANY
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+
+int main(void) {
+    setsockopt(0, SOL_SOCKET, SO_BINDANY, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IP_TRANSPARENT
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_IP, IP_TRANSPARENT, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IP_BINDANY
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_IP, IP_BINDANY, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IP_BIND_ADDRESS_NO_PORT
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_IP, IP_BIND_ADDRESS_NO_PORT, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IP_RECVDSTADDR
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_IP, IP_RECVDSTADDR, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IP_SENDSRCADDR
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_IP, IP_SENDSRCADDR, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IP_PKTINFO
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    struct in_pktinfo  pkt;
+                  pkt.ipi_spec_dst.s_addr = INADDR_ANY;
+                  (void) pkt;
+                  setsockopt(0, IPPROTO_IP, IP_PKTINFO, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for IPV6_RECVPKTINFO
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_IPV6, IPV6_RECVPKTINFO, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for TCP_DEFER_ACCEPT
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+                  #include <netinet/tcp.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_TCP, TCP_DEFER_ACCEPT, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for TCP_KEEPIDLE
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+                  #include <netinet/tcp.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_TCP, TCP_KEEPIDLE, NULL, 0);
+                  setsockopt(0, IPPROTO_TCP, TCP_KEEPINTVL, NULL, 0);
+                  setsockopt(0, IPPROTO_TCP, TCP_KEEPCNT, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for TCP_FASTOPEN
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+                  #include <netinet/tcp.h>
+
+int main(void) {
+    setsockopt(0, IPPROTO_TCP, TCP_FASTOPEN, NULL, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for TCP_INFO
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+                  #include <netinet/in.h>
+                  #include <netinet/tcp.h>
+
+int main(void) {
+    socklen_t optlen = sizeof(struct tcp_info);
+                  struct tcp_info ti;
+                  ti.tcpi_rtt = 0;
+                  ti.tcpi_rttvar = 0;
+                  ti.tcpi_snd_cwnd = 0;
+                  ti.tcpi_rcv_space = 0;
+                  getsockopt(0, IPPROTO_TCP, TCP_INFO, &ti, &optlen);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for accept4()
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/socket.h>
+
+int main(void) {
+    accept4(0, NULL, NULL, SOCK_NONBLOCK);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for kqueue AIO support
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <aio.h>
+
+int main(void) {
+    struct aiocb  iocb;
+                      iocb.aio_sigevent.sigev_notify = SIGEV_KEVENT;
+                      (void) aio_read(&iocb);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for Linux AIO support
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <linux/aio_abi.h>
+                          #include <sys/eventfd.h>
+
+int main(void) {
+    struct iocb  iocb;
+                          iocb.aio_lio_opcode = IOCB_CMD_PREAD;
+                          iocb.aio_flags = IOCB_FLAG_RESFD;
+                          iocb.aio_resfd = -1;
+                          (void) iocb;
+                          (void) eventfd(0, 0);
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
+
+----------------------------------------
+checking for Linux AIO support (SYS_eventfd)
+
+cc: fatal error: no input files
+compilation terminated.
+----------
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <linux/aio_abi.h>
+                          #include <sys/syscall.h>
+
+int main(void) {
+    struct iocb  iocb;
+                          iocb.aio_lio_opcode = IOCB_CMD_PREAD;
+                          iocb.aio_flags = IOCB_FLAG_RESFD;
+                          iocb.aio_resfd = -1;
+                          (void) iocb;
+                          (void) SYS_eventfd;
+    return 0;
+}
+
+----------
+cc "-O2 -Wall -DFORTIFY_SOURCE=2 -fstack-protector" -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
+----------
